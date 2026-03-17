@@ -16,15 +16,18 @@ Usage:
 """
 
 import numpy as np
+import warnings
 
 try:
     import cupy as cp
     GPU_AVAILABLE = True
-    print("✓ CuPy detected - GPU acceleration enabled")
 except ImportError:
     GPU_AVAILABLE = False
-    print("⚠ CuPy not found - falling back to CPU (NumPy)")
-    print("  Install with: pip install cupy-cuda12x")
+    warnings.warn(
+        "CuPy not found; falling back to CPU (NumPy). Install with: pip install cupy-cuda12x",
+        RuntimeWarning,
+        stacklevel=2,
+    )
     # Fallback: use numpy as cp
     import numpy as cp
 
@@ -72,7 +75,7 @@ class AethelgardEngineGPU:
         self.xp = cp if self.use_gpu else np
         
         if self.use_gpu:
-            print("🚀 Using GPU acceleration (CuPy)")
+            print("Using GPU acceleration (CuPy)")
             # Print GPU info
             try:
                 device = cp.cuda.Device()
@@ -82,7 +85,7 @@ class AethelgardEngineGPU:
             except Exception:
                 pass
         else:
-            print("💻 Using CPU (NumPy)")
+            print("Using CPU (NumPy)")
         
         # Physical Constraints & Limits
         self.causality_limit = (0.1, 10.0)
