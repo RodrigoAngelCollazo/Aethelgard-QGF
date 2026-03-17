@@ -56,6 +56,20 @@ cd Aethelgard-QGF
 pip install -r requirements.txt
 ```
 
+### Optional features
+
+- **Interactive visualizer**:
+
+```bash
+pip install -r requirements-optional.txt
+```
+
+- **Dev / linting / coverage**:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
 ### Basic Usage
 
 ```python
@@ -138,9 +152,6 @@ engine.visualize_evolution()
 Launch web-based 3D viewer:
 
 ```bash
-# Install dependencies
-pip install plotly dash
-
 # Run visualizer
 python interactive_visualizer.py
 ```
@@ -161,13 +172,13 @@ Explore cutting-edge physics:
 
 ```bash
 # Black hole with quantum core
-python scenarios/black_hole_quantum_core.py
+python -m scenarios.black_hole_quantum_core
 
 # Wormhole stabilization
-python scenarios/wormhole_stabilization.py
+python -m scenarios.wormhole_stabilization
 
 # Dark energy cosmology
-python scenarios/dark_energy_cosmology.py
+python -m scenarios.dark_energy_cosmology
 ```
 
 Each scenario includes:
@@ -257,7 +268,7 @@ The **negative sign** on the quantum term creates "antigravity" effects!
 Run unit tests:
 
 ```bash
-python -m unittest test_aethelgard -v
+python run_tests.py
 ```
 
 Expected: 12 tests pass
@@ -267,15 +278,14 @@ Expected: 12 tests pass
 **Core (Required):**
 
 - Python 3.8+
-- NumPy >= 1.21.0
-- SciPy >= 1.7.0
-- Matplotlib >= 3.4.0
+- NumPy
+- Matplotlib
 
 **Optional:**
 
 - CuPy >= 12.0.0 (GPU acceleration)
-- Plotly >= 5.0.0 (Interactive viz)
-- Dash >= 2.0.0 (Web interface)
+- Plotly (Interactive viz)
+- Dash (Web interface)
 
 ## Citation
 

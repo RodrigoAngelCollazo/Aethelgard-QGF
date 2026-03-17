@@ -15,6 +15,7 @@ Then open your browser to: http://localhost:8050
 
 
 import numpy as np
+import warnings
 
 try:
     import dash
@@ -25,8 +26,11 @@ try:
     INTERACTIVE_AVAILABLE = True
 except ImportError:
     INTERACTIVE_AVAILABLE = False
-    print("⚠ Plotly/Dash not installed. Install with:")
-    print("  pip install plotly dash")
+    warnings.warn(
+        "Plotly/Dash not installed. Install with: pip install -r requirements-optional.txt",
+        RuntimeWarning,
+        stacklevel=2,
+    )
 
 from aethelgard_engine import AethelgardEngine
 
@@ -385,8 +389,8 @@ class InteractiveVisualizer:
         print("=" * 70)
         print("AETHELGARD-QGF INTERACTIVE VISUALIZER")
         print("=" * 70)
-        print(f"\n🌐 Starting web server on port {port}...")
-        print(f"   Open your browser to: http://localhost:{port}")
+        print(f"\nStarting web server on port {port}...")
+        print(f"Open your browser to: http://localhost:{port}")
         print("\n   Press Ctrl+C to stop the server")
         print("=" * 70)
         
@@ -411,7 +415,7 @@ def create_static_3d_visualization(engine, metric, mass_dist, entropy_map, outpu
         Output HTML file path
     """
     if not INTERACTIVE_AVAILABLE:
-        print("⚠ Plotly not available. Install with: pip install plotly")
+        print("Plotly not available. Install with: pip install -r requirements-optional.txt")
         return
     
     # Create subplots
@@ -460,7 +464,7 @@ def create_static_3d_visualization(engine, metric, mass_dist, entropy_map, outpu
     )
     
     fig.write_html(output_file)
-    print(f"✓ Saved interactive 3D visualization to: {output_file}")
+    print(f"Saved interactive 3D visualization to: {output_file}")
 
 
 if __name__ == "__main__":
@@ -469,5 +473,5 @@ if __name__ == "__main__":
         viz = InteractiveVisualizer(grid_size=32, domain_size=10.0)
         viz.run(debug=False, port=8050)
     else:
-        print("\n❌ Cannot run interactive visualizer without Plotly and Dash")
-        print("   Install with: pip install plotly dash")
+        print("\nCannot run interactive visualizer without Plotly and Dash.")
+        print("Install with: pip install -r requirements-optional.txt")

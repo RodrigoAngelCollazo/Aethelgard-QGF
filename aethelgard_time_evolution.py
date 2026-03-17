@@ -152,7 +152,7 @@ class AethelgardEngineTimeEvolution(AethelgardEngine):
                 print(f"  Step {step+1}/{time_steps}, t = {self.current_time:.3f}s")
         
         if verbose:
-            print("✓ Evolution complete!")
+            print("Evolution complete.")
         
         return self.history
     
@@ -273,7 +273,7 @@ class AethelgardEngineTimeEvolution(AethelgardEngine):
         
         plt.tight_layout()
         plt.savefig(output_path / 'time_evolution.png', dpi=150)
-        print(f"✓ Saved: {output_path / 'time_evolution.png'}")
+        print(f"Saved: {output_path / 'time_evolution.png'}")
         
         return fig
 
@@ -317,7 +317,7 @@ def example_gravitational_wave():
     # Visualize
     engine.visualize_evolution(output_dir='scenarios/output')
     
-    print("\n✓ Gravitational wave simulation complete!")
+    print("\nGravitational wave simulation complete.")
     return engine, history
 
 

@@ -57,6 +57,7 @@ Thumbs.db
 htmlcov/
 coverage.xml
 *.txt
+!requirements*.txt
 
 # Scenario outputs
 scenarios/output/

@@ -195,7 +195,7 @@ pip install cupy-cuda12x  # For CUDA 12.x
 ### With Interactive Visualization
 
 ```bash
-pip install plotly dash
+pip install -r requirements-optional.txt
 ```
 
 ### Run Your First Simulation

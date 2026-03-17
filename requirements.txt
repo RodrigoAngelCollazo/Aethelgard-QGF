@@ -1,11 +1,2 @@
 numpy
-scipy
 matplotlib
-einsteinpy
-astropy
-plotly
-numba
-dash
-pytest
-pytest-cov
-ruff

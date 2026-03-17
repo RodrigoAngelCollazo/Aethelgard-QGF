@@ -20,7 +20,7 @@ Models a massive object with quantum-repulsive core preventing singularity forma
 **Run**:
 
 ```bash
-python scenarios/black_hole_quantum_core.py
+python -m scenarios.black_hole_quantum_core
 ```
 
 **Outputs**:
@@ -46,7 +46,7 @@ Explores using quantum pressure to stabilize a wormhole throat without classical
 **Run**:
 
 ```bash
-python scenarios/wormhole_stabilization.py
+python -m scenarios.wormhole_stabilization
 ```
 
 **Outputs**:
@@ -72,7 +72,7 @@ Models dark energy as emergent from quantum vacuum entropy.
 **Run**:
 
 ```bash
-python scenarios/dark_energy_cosmology.py
+python -m scenarios.dark_energy_cosmology
 ```
 
 **Outputs**:
@@ -86,9 +86,9 @@ python scenarios/dark_energy_cosmology.py
 
 ```bash
 # Run each scenario
-python scenarios/black_hole_quantum_core.py
-python scenarios/wormhole_stabilization.py
-python scenarios/dark_energy_cosmology.py
+python -m scenarios.black_hole_quantum_core
+python -m scenarios.wormhole_stabilization
+python -m scenarios.dark_energy_cosmology
 ```
 
 All outputs are saved to `scenarios/output/` directory.

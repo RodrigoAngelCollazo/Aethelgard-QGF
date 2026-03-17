@@ -108,9 +108,13 @@ Aethelgard-QGF/
 
 **`requirements.txt`** (48 B)
 
-- numpy >= 1.21.0
-- scipy >= 1.7.0
-- matplotlib >= 3.4.0
+- numpy
+- matplotlib
+
+Optional:
+
+- requirements-optional.txt (plotly, dash)
+- requirements-dev.txt (pytest, pytest-cov, ruff)
 
 **`.gitignore`** (433 B)
 

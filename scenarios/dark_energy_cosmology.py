@@ -16,12 +16,10 @@ import matplotlib
 import numpy as np
 
 matplotlib.use('Agg')
-import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
 from aethelgard_engine import AethelgardEngine
 
 

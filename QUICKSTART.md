@@ -18,8 +18,14 @@ pip install -r requirements.txt
 This installs:
 
 - `numpy` - Numerical computing
-- `scipy` - Scientific computing (for gaussian_filter)
 - `matplotlib` - Visualization
+
+Optional:
+
+```bash
+pip install -r requirements-optional.txt   # plotly, dash
+pip install -r requirements-dev.txt        # pytest, pytest-cov, ruff
+```
 
 ### Step 3: Run the Example
 
