@@ -1,224 +1,175 @@
-# Aethelgard-QGF
+<p align="center">
+  <img src="https://img.shields.io/badge/Aethelgard--QGF-Quantum%20Gravity-blue?style=for-the-badge" alt="Aethelgard-QGF" />
+</p>
 
-**Quantum Gravitational Field Engine with Antigravity Effects**
+<h1 align="center">Aethelgard-QGF</h1>
+<p align="center">
+  <strong>Quantum Gravitational Field Engine</strong> — Spacetime metrics where entanglement entropy creates repulsive geometry
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+<p align="center">
+  <a href="https://github.com/Purmamarca/Aethelgard-QGF/actions"><img src="https://img.shields.io/github/actions/workflow/status/Purmamarca/Aethelgard-QGF/ci.yml?branch=main&style=flat-square" alt="CI" /></a>
+  <a href="https://github.com/Purmamarca/Aethelgard-QGF/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License" /></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.8+-blue?style=flat-square" alt="Python" /></a>
+  <a href="https://github.com/Purmamarca/Aethelgard-QGF/blob/main/docs/API_REFERENCE.md"><img src="https://img.shields.io/badge/API-Documented-orange?style=flat-square" alt="API" /></a>
+</p>
 
-## Overview
+---
 
-Aethelgard-QGF is an AGI-optimized solver for exploring theoretical spacetime metrics where **quantum information density modifies the gravitational constant** G into an effective G_eff. This engine implements a novel approach where entanglement entropy gradients create repulsive geometric pressure—a potential "antigravity" mechanism.
+## What is Aethelgard-QGF?
 
-### Key Features
+A **production-grade numerical engine** for exploring theoretical spacetime metrics where **quantum information density modifies gravity**. Entanglement entropy gradients create repulsive geometric pressure—a potential antigravity mechanism with applications in black holes, wormholes, and dark energy.
 
-🌌 **Advanced Physics**
+| Feature | Description |
+|---------|-------------|
+| **Modified Einstein equations** | G_μν + Λ(x)·g_μν = 8πG·T_μν with quantum corrections |
+| **GPU acceleration** | 10–50× speedup with CuPy (optional) |
+| **Time evolution** | 3+1 ADM formalism, gravitational waves, stellar collapse |
+| **Scenarios** | Black hole with quantum core, wormhole stabilization, dark energy cosmology |
+| **API spec** | [Full API reference](docs/API_REFERENCE.md) with types and contracts |
 
-- Modified Einstein field equations with quantum corrections
-- Holographic entropy-curvature coupling
-- Emergent antigravity from information geometry
-- Dark energy as quantum vacuum structure
-
-⚡ **High Performance**
-
-- CPU optimization with NumPy/SciPy
-- **NEW**: GPU acceleration with CuPy (10-50x speedup)
-- Efficient iterative solvers
-- Scalable to large grids (128³+)
-
-🎬 **Time Evolution**
-
-- **NEW**: 3+1 ADM formalism implementation
-- Dynamic spacetime evolution
-- Gravitational wave propagation
-- Stellar collapse simulations
-
-📊 **Visualization**
-
-- 2D slice visualization
-- **NEW**: Interactive 3D web viewer (Plotly/Dash)
-- **NEW**: Real-time parameter exploration
-- Publication-ready figures
-
-🔬 **Scenarios**
-
-- **NEW**: Black hole with quantum core
-- **NEW**: Wormhole stabilization
-- **NEW**: Dark energy cosmology
-- Custom scenario support
+---
 
 ## Quick Start
 
-### Installation
+```bash
+# From PyPI (when published) or local install
+pip install -e .
+
+# Or minimal: pip install -r requirements.txt
+```
+
+```python
+from aethelgard import AethelgardEngine
+import numpy as np
+
+engine = AethelgardEngine(grid_size=32, domain_size=10.0)
+mass = np.zeros((32, 32, 32))
+mass[15:17, 15:17, 15:17] = 1e10
+entropy = np.random.rand(32, 32, 32)
+
+metric = engine.solve_field_equations(mass, entropy, iterations=100)
+g_00 = metric[..., 0, 0]
+print(f"g_00 range: [{g_00.min():.4f}, {g_00.max():.4f}]")
+```
+
+### Optional Extras
+
+```bash
+pip install "aethelgard-qgf[gpu]"    # CuPy for 10–50× speedup
+pip install "aethelgard-qgf[viz]"    # Plotly + Dash for web viz
+pip install "aethelgard-qgf[dev]"    # pytest, ruff for development
+```
+
+### CLI
+
+```bash
+aethelgard-example      # Run example simulation
+aethelgard-viz          # Launch interactive 3D viewer (port 8050)
+aethelgard-benchmark    # CPU vs GPU benchmark
+```
+
+---
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Architecture](#architecture)
+- [Scenarios](#scenarios)
+- [Theory](#theory)
+- [API Reference](#api-reference)
+- [Contributing](#contributing)
+
+---
+
+## Installation
 
 ```bash
 git clone https://github.com/Purmamarca/Aethelgard-QGF.git
 cd Aethelgard-QGF
-pip install -r requirements.txt
+pip install -e .
 ```
 
-### Optional features
-
-- **Interactive visualizer**:
+For development:
 
 ```bash
-pip install -r requirements-optional.txt
+pip install -e ".[dev]"
+python run_tests.py
 ```
 
-- **Dev / linting / coverage**:
+---
 
-```bash
-pip install -r requirements-dev.txt
-```
+## Usage
 
-### Basic Usage
+### CPU Engine
 
 ```python
-from aethelgard_engine import AethelgardEngine
-import numpy as np
+from aethelgard import AethelgardEngine
 
-# Initialize engine
-engine = AethelgardEngine(grid_size=32, domain_size=10.0)
-
-# Define mass and entropy fields
-mass = np.zeros((32, 32, 32))
-mass[15:17, 15:17, 15:17] = 1e10  # Central mass
-
-entropy = np.random.rand(32, 32, 32)  # Quantum fluctuations
-
-# Solve field equations
-metric = engine.solve_field_equations(mass, entropy, iterations=100)
-
-# Extract time-time component
-g_00 = metric[..., 0, 0]
-print(f"Metric range: [{g_00.min():.4f}, {g_00.max():.4f}]")
+engine = AethelgardEngine(grid_size=64, domain_size=20.0)
+metric = engine.solve_field_equations(mass, entropy, iterations=200)
+hazard = engine.calculate_paradox_hazard()  # 0–1 causality risk
 ```
 
-### Run Example
+### GPU Engine (optional)
 
-```bash
-python example_simulation.py
-```
-
-## Advanced Features
-
-### GPU Acceleration (NEW!)
-
-For 10-50x speedup on NVIDIA GPUs:
-
-```bash
-# Install CuPy (CUDA 12.x)
-pip install cupy-cuda12x
-
-# Use GPU engine
-from aethelgard_engine_gpu import AethelgardEngineGPU
+```python
+from aethelgard import AethelgardEngineGPU
 
 engine = AethelgardEngineGPU(grid_size=128, use_gpu=True)
-# ... rest is identical to CPU version
+metric = engine.solve_field_equations(mass, entropy)
 ```
 
-**Benchmark Results:**
-| Grid Size | CPU Time | GPU Time | Speedup |
-|-----------|----------|----------|---------|
-| 32³ | 0.8s | 0.08s | 10x |
-| 64³ | 6.2s | 0.15s | 41x |
-| 128³ | 48s | 1.2s | 40x |
-
-### Time Evolution (NEW!)
-
-Simulate dynamic spacetime:
+### Time Evolution
 
 ```python
-from aethelgard_time_evolution import AethelgardEngineTimeEvolution
+from aethelgard import AethelgardEngineTimeEvolution
 
 engine = AethelgardEngineTimeEvolution(grid_size=32, dt=0.01)
-
-# Time-dependent entropy (gravitational wave)
-def entropy_wave(t):
-    # ... wave definition
-    return entropy_field
-
 history = engine.evolve_metric(mass, entropy_wave, time_steps=100)
-engine.visualize_evolution()
+engine.visualize_evolution(output_dir="output")
 ```
 
-**Examples:**
+---
 
-- Gravitational wave propagation
-- Collapsing star with quantum bounce
-- Dynamic wormhole formation
-
-### Interactive Visualization (NEW!)
-
-Launch web-based 3D viewer:
-
-```bash
-# Run visualizer
-python interactive_visualizer.py
-```
-
-Then open browser to `http://localhost:8050`
-
-**Features:**
-
-- Real-time 3D visualization
-- Multiple scenario presets
-- Adjustable slicing planes
-- Isosurface rendering
-- Statistical analysis
-
-### Advanced Scenarios (NEW!)
-
-Explore cutting-edge physics:
-
-```bash
-# Black hole with quantum core
-python -m scenarios.black_hole_quantum_core
-
-# Wormhole stabilization
-python -m scenarios.wormhole_stabilization
-
-# Dark energy cosmology
-python -m scenarios.dark_energy_cosmology
-```
-
-Each scenario includes:
-
-- Detailed physics explanation
-- Radial profile analysis
-- 2D cross-sections
-- Statistical output
-
-## Repository Structure
+## Architecture
 
 ```
-Aethelgard-QGF/
-├── aethelgard_engine.py              # Core CPU engine
-├── aethelgard_engine_gpu.py          # GPU-accelerated engine (NEW)
-├── aethelgard_time_evolution.py      # Time evolution module (NEW)
-├── interactive_visualizer.py         # Web-based 3D viewer (NEW)
-├── example_simulation.py             # Basic example
-├── test_aethelgard.py               # Unit tests
-│
-├── scenarios/                        # Advanced scenarios (NEW)
-│   ├── black_hole_quantum_core.py
-│   ├── wormhole_stabilization.py
-│   ├── dark_energy_cosmology.py
-│   └── README.md
-│
-├── docs/
-│   ├── README.md                     # This file
-│   ├── QUICKSTART.md                 # 5-minute guide
-│   ├── TECHNICAL_DOCS.md            # Mathematical details
-│   └── PROJECT_SUMMARY.md           # Complete overview
-│
-├── requirements.txt                  # Dependencies
-├── LICENSE                          # MIT License
-└── .gitignore
+aethelgard/
+├── AethelgardEngine          # Core CPU solver
+├── AethelgardEngineGPU       # GPU solver (CuPy fallback)
+└── AethelgardEngineTimeEvolution  # 3+1 ADM time stepping
+
+scenarios/                    # Physics scenarios
+├── black_hole_quantum_core
+├── wormhole_stabilization
+└── dark_energy_cosmology
 ```
 
-## Theoretical Foundation
+| Module | Purpose |
+|--------|---------|
+| `aethelgard_engine` | Core solver, quantum pressure, field equations |
+| `aethelgard_engine_gpu` | GPU acceleration with automatic CPU fallback |
+| `aethelgard_time_evolution` | Dynamic spacetime evolution |
+| `antigravity_engine` | Flux anomaly calculations |
+| `scenarios` | Pre-built physics scenarios |
 
-### Core Concept
+---
+
+## Scenarios
+
+| Scenario | Run | Output |
+|----------|-----|--------|
+| Black hole + quantum core | `python -m scenarios.black_hole_quantum_core` | Radial profiles, 2D slices |
+| Wormhole stabilization | `python -m scenarios.wormhole_stabilization` | Throat geometry |
+| Dark energy cosmology | `python -m scenarios.dark_energy_cosmology` | Power spectrum, fields |
+
+See [scenarios/README.md](scenarios/README.md) for details.
+
+---
+
+## Theory
 
 The engine solves modified Einstein field equations:
 
@@ -226,70 +177,40 @@ The engine solves modified Einstein field equations:
 G_μν + Λ(x)·g_μν = 8πG·T_μν
 ```
 
-Where the stress-energy tensor includes quantum corrections:
+With quantum stress-energy:
 
 ```
-T_total = T_classical - T_quantum
-        = ρ·c² - (ℏc/dx⁴)·∇²S
+T_total = T_classical - T_quantum = ρ·c² - (ℏc/dx⁴)·∇²S
 ```
 
-The **negative sign** on the quantum term creates "antigravity" effects!
+The **negative quantum term** yields repulsive geometry (antigravity).
 
-### Physical Applications
+**Applications:** Dark energy, singularity prevention, wormhole stabilization, inflation seeds.
 
-1. **Dark Energy**: Quantum vacuum entropy → cosmological constant
-2. **Black Holes**: Entropy-driven repulsion → singularity prevention
-3. **Wormholes**: Quantum pressure → exotic geometry stabilization
-4. **Inflation**: Information-theoretic expansion mechanism
+---
 
-## Documentation
+## API Reference
 
-- **[QUICKSTART.md](QUICKSTART.md)** - Get started in 5 minutes
-- **[TECHNICAL_DOCS.md](TECHNICAL_DOCS.md)** - Mathematical framework
-- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Complete overview
-- **[scenarios/README.md](scenarios/README.md)** - Scenario guide
+Full specification: **[docs/API_REFERENCE.md](docs/API_REFERENCE.md)**
 
-## Performance
+- Constructor and method signatures
+- Parameter types and constraints
+- Error handling
+- Entry points and CLI
 
-### CPU Performance
+---
 
-- **Memory**: ~80 MB for 32³ grid
-- **Speed**: ~0.01 s/iteration
-- **Scalability**: O(N³) per iteration
+## Contributing
 
-### GPU Performance (with CuPy)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. We welcome:
 
-- **Memory**: GPU VRAM dependent
-- **Speed**: ~0.001 s/iteration (32³)
-- **Speedup**: 10-50x vs CPU
+- Numerical method improvements
+- Physical model refinements
+- Documentation and examples
 
-## Testing
-
-Run unit tests:
-
-```bash
-python run_tests.py
-```
-
-Expected: 12 tests pass
-
-## Requirements
-
-**Core (Required):**
-
-- Python 3.8+
-- NumPy
-- Matplotlib
-
-**Optional:**
-
-- CuPy >= 12.0.0 (GPU acceleration)
-- Plotly (Interactive viz)
-- Dash (Web interface)
+---
 
 ## Citation
-
-If you use this code in research, please cite:
 
 ```bibtex
 @software{aethelgard_qgf_2026,
@@ -301,54 +222,17 @@ If you use this code in research, please cite:
 }
 ```
 
-## References
-
-### Foundational Papers
-
-1. **Jacobson, T.** (1995). "Thermodynamics of Spacetime: The Einstein Equation of State"
-2. **Verlinde, E.** (2011). "On the Origin of Gravity and the Laws of Newton"
-3. **Susskind, L.** (1995). "The World as a Hologram"
-4. **Ryu-Takayanagi** (2006). "Holographic Entanglement Entropy"
+---
 
 ## License
 
-MIT License - Free for academic and commercial use with attribution.
-
-## Contributing
-
-Contributions welcome! Areas of interest:
-
-- Improved numerical methods
-- Physical model refinements
-- Visualization enhancements
-- Documentation improvements
-
-## Changelog
-
-### Version 1.0.0 (January 2026)
-
-**New Features:**
-
-- ✨ GPU acceleration with CuPy (10-50x speedup)
-- ✨ Time evolution with 3+1 ADM formalism
-- ✨ Interactive 3D web visualization
-- ✨ Advanced physics scenarios (black holes, wormholes, dark energy)
-- ✨ Comprehensive documentation suite
-
-**Core:**
-
-- ✅ Modified Einstein field equations solver
-- ✅ Quantum pressure calculation
-- ✅ Holographic entropy coupling
-- ✅ Unit test suite (12 tests)
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/Purmamarca/Aethelgard-QGF/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Purmamarca/Aethelgard-QGF/discussions)
+MIT — free for academic and commercial use with attribution.
 
 ---
 
-**Built with curiosity for the quantum nature of spacetime** 🌌
+## References
 
-_"The universe is not only queerer than we suppose, but queerer than we can suppose."_ - J.B.S. Haldane
+- Jacobson (1995) — Thermodynamics of spacetime
+- Verlinde (2011) — Emergent gravity
+- Susskind (1995) — Holographic principle
+- Ryu–Takayanagi (2006) — Holographic entanglement entropy

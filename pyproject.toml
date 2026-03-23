@@ -1,0 +1,97 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aethelgard-qgf"
+version = "1.0.0"
+description = "Quantum Gravitational Field engine with antigravity effects from entanglement entropy gradients"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Aethelgard-QGF Project", email = "github@purmamarca.dev"}
+]
+maintainers = [
+    {name = "Aethelgard-QGF Project"}
+]
+keywords = [
+    "quantum-gravity",
+    "general-relativity",
+    "entanglement-entropy",
+    "numerical-relativity",
+    "antigravity",
+    "cosmology",
+    "black-holes",
+    "wormholes",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.21",
+    "matplotlib>=3.4",
+]
+
+[project.optional-dependencies]
+gpu = ["cupy-cuda12x"]
+viz = ["plotly>=5.0", "dash>=2.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+]
+all = ["aethelgard-qgf[gpu,viz,dev]"]
+
+[project.urls]
+Homepage = "https://github.com/Purmamarca/Aethelgard-QGF"
+Documentation = "https://github.com/Purmamarca/Aethelgard-QGF#readme"
+Repository = "https://github.com/Purmamarca/Aethelgard-QGF"
+"Bug Tracker" = "https://github.com/Purmamarca/Aethelgard-QGF/issues"
+
+[project.scripts]
+aethelgard-example = "aethelgard_cli:run_example"
+aethelgard-viz = "aethelgard_cli:run_viz"
+aethelgard-benchmark = "aethelgard_cli:run_benchmark"
+
+[project.entry-points."aethelgard.scenarios"]
+black_hole = "scenarios.black_hole_quantum_core:create_black_hole_scenario"
+wormhole = "scenarios.wormhole_stabilization:create_wormhole_scenario"
+dark_energy = "scenarios.dark_energy_cosmology:create_dark_energy_scenario"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aethelgard", "scenarios"]
+
+[tool.setuptools]
+py-modules = [
+    "aethelgard_engine",
+    "aethelgard_engine_gpu",
+    "aethelgard_time_evolution",
+    "antigravity_engine",
+    "aethelgard_cli",
+    "example_simulation",
+    "interactive_visualizer",
+    "run_tests",
+]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 100
+src = [".", "scenarios", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+filterwarnings = ["ignore::UserWarning"]
