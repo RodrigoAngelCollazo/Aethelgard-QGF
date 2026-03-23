@@ -4,8 +4,11 @@ Focuses on input validation and resource exhaustion prevention.
 """
 
 import unittest
+
 import numpy as np
+
 from aethelgard_engine import AethelgardEngine
+
 try:
     from aethelgard_engine_gpu import AethelgardEngineGPU
     GPU_MODULE_AVAILABLE = True

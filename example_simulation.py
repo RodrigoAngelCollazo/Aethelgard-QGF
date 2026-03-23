@@ -75,18 +75,18 @@ def main():
     g_00 = result_metric[..., 0, 0]
     
     # Create visualizations
-    fig1 = visualize_slice(mass_distribution, 'Mass Distribution')
+    visualize_slice(mass_distribution, 'Mass Distribution')
     plt.savefig('mass_distribution.png', dpi=150)
     
-    fig2 = visualize_slice(entropy_map, 'Quantum Entropy Field')
+    visualize_slice(entropy_map, 'Quantum Entropy Field')
     plt.savefig('entropy_field.png', dpi=150)
     
-    fig3 = visualize_slice(g_00, 'Spacetime Metric (g_00 component)')
+    visualize_slice(g_00, 'Spacetime Metric (g_00 component)')
     plt.savefig('metric_g00.png', dpi=150)
     
     # Calculate quantum pressure for visualization
     T_quantum = engine.calculate_quantum_pressure(entropy_map)
-    fig4 = visualize_slice(T_quantum, 'Quantum Pressure (Antigravity Term)')
+    visualize_slice(T_quantum, 'Quantum Pressure (Antigravity Term)')
     plt.savefig('quantum_pressure.png', dpi=150)
     
     print("\n" + "=" * 60)

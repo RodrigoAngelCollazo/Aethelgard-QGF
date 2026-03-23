@@ -3,8 +3,11 @@ Security regression tests for AethelgardEngineTimeEvolution.
 Focuses on input validation and resource exhaustion prevention.
 """
 import unittest
+
 import numpy as np
+
 from aethelgard_time_evolution import AethelgardEngineTimeEvolution
+
 
 class TestTimeEvolutionSecurity(unittest.TestCase):
 
@@ -16,7 +19,10 @@ class TestTimeEvolutionSecurity(unittest.TestCase):
             AethelgardEngineTimeEvolution(grid_size=32, domain_size=10.0, dt=1.0)
             AethelgardEngineTimeEvolution(grid_size=32, domain_size=10.0, dt=0.0001)
         except ValueError:
-            self.fail("AethelgardEngineTimeEvolution raised ValueError unexpectedly on valid inputs")
+            self.fail(
+                "AethelgardEngineTimeEvolution raised ValueError "
+                "unexpectedly on valid inputs"
+            )
 
         # Invalid dt
         with self.assertRaises(ValueError):
@@ -48,9 +54,11 @@ class TestTimeEvolutionSecurity(unittest.TestCase):
         with self.assertRaises(ValueError):
             engine.evolve_metric(valid_mass, valid_entropy, time_steps=-5, verbose=False)
         with self.assertRaises(ValueError):
-            engine.evolve_metric(valid_mass, valid_entropy, time_steps=5001, verbose=False) # Too many
+            # Too many
+            engine.evolve_metric(valid_mass, valid_entropy, time_steps=5001, verbose=False)
         with self.assertRaises(ValueError):
-            engine.evolve_metric(valid_mass, valid_entropy, time_steps=10.5, verbose=False) # Not integer
+            # Not integer
+            engine.evolve_metric(valid_mass, valid_entropy, time_steps=10.5, verbose=False)
 
     def test_visualize_evolution_security(self):
         """Test path traversal prevention in visualize_evolution."""

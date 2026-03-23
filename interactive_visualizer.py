@@ -14,8 +14,9 @@ Then open your browser to: http://localhost:8050
 """
 
 
-import numpy as np
 import warnings
+
+import numpy as np
 
 try:
     import dash
@@ -327,8 +328,8 @@ class InteractiveVisualizer:
     
     def _create_darkenergy_scenario(self):
         """Create dark energy scenario."""
-        self.mass_dist = np.ones((self.grid_size, self.grid_size, self.grid_size)) * 1e6
-        self.entropy_map = 5.0 + 0.5 * np.random.randn(self.grid_size, self.grid_size, self.grid_size)
+        shape = (self.grid_size, self.grid_size, self.grid_size)
+        self.entropy_map = 5.0 + 0.5 * np.random.randn(*shape)
         self.entropy_map = np.abs(self.entropy_map)
         
         self.metric = self.engine.solve_field_equations(
@@ -339,8 +340,9 @@ class InteractiveVisualizer:
     def _create_custom_scenario(self):
         """Create custom Gaussian scenario."""
         center = self.domain_size / 2
-        self.mass_dist = 1e11 * np.exp(-((self.X-center)**2 + (self.Y-center)**2 + (self.Z-center)**2) / 4.0)
-        self.entropy_map = 10.0 * np.exp(-((self.X-center)**2 + (self.Y-center)**2 + (self.Z-center)**2) / 6.0)
+        r2 = (self.X-center)**2 + (self.Y-center)**2 + (self.Z-center)**2
+        self.mass_dist = 1e11 * np.exp(-r2 / 4.0)
+        self.entropy_map = 10.0 * np.exp(-r2 / 6.0)
         
         self.metric = self.engine.solve_field_equations(
             self.mass_dist, self.entropy_map, iterations=100, verbose=False
@@ -397,7 +399,9 @@ class InteractiveVisualizer:
         self.app.run_server(debug=debug, port=port)
 
 
-def create_static_3d_visualization(engine, metric, mass_dist, entropy_map, output_file='3d_visualization.html'):
+def create_static_3d_visualization(
+    engine, metric, mass_dist, entropy_map, output_file='3d_visualization.html'
+):
     """
     Create a static 3D visualization and save as HTML.
     

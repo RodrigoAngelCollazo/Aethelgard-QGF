@@ -15,8 +15,9 @@ Usage:
     # ... rest is identical to CPU version
 """
 
-import numpy as np
 import warnings
+
+import numpy as np
 
 try:
     import cupy as cp
@@ -57,7 +58,9 @@ class AethelgardEngineGPU:
         if not isinstance(grid_size, int) or grid_size <= 0:
             raise ValueError("Grid size must be a positive integer.")
         if grid_size > 256:
-            raise ValueError("Grid size exceeds maximum limit of 256 to prevent resource exhaustion.")
+            raise ValueError(
+                "Grid size exceeds maximum limit of 256 to prevent resource exhaustion."
+            )
         if not isinstance(domain_size, (int, float)) or domain_size <= 0:
             raise ValueError("Domain size must be a positive number.")
 
@@ -156,11 +159,18 @@ class AethelgardEngineGPU:
         if iterations > 10000:
             raise ValueError("Iterations exceeds maximum limit of 10000.")
 
-        if hasattr(mass_distribution, 'shape') and mass_distribution.shape != (self.N, self.N, self.N):
-            raise ValueError(f"Mass distribution shape {mass_distribution.shape} must match grid size ({self.N}, {self.N}, {self.N}).")
+        target_shape = (self.N, self.N, self.N)
+        if hasattr(mass_distribution, 'shape') and mass_distribution.shape != target_shape:
+            raise ValueError(
+                f"Mass distribution shape {mass_distribution.shape} "
+                f"must match grid size {target_shape}."
+            )
 
-        if hasattr(entropy_map, 'shape') and entropy_map.shape != (self.N, self.N, self.N):
-            raise ValueError(f"Entropy map shape {entropy_map.shape} must match grid size ({self.N}, {self.N}, {self.N}).")
+        if hasattr(entropy_map, 'shape') and entropy_map.shape != target_shape:
+            raise ValueError(
+                f"Entropy map shape {entropy_map.shape} "
+                f"must match grid size {target_shape}."
+            )
 
         if verbose:
             backend = "GPU (CuPy)" if self.use_gpu else "CPU (NumPy)"
@@ -340,7 +350,9 @@ def benchmark_cpu_vs_gpu(grid_sizes=None):
     for r in results:
         gpu_str = f"{r['gpu_time']:.2f}s" if r['gpu_time'] else "N/A"
         speedup_str = f"{r['speedup']:.2f}x" if r['speedup'] else "N/A"
-        print(f"{r['grid_size']**3:<12,} {r['cpu_time']:.2f}s{'':<7} {gpu_str:<12} {speedup_str:<12}")
+        points = r['grid_size']**3
+        cpu_t = r['cpu_time']
+        print(f"{points:<12,} {cpu_t:.2f}s{'':<7} {gpu_str:<12} {speedup_str:<12}")
     
     return results
 

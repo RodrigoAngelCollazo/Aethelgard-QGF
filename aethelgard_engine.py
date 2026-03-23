@@ -12,7 +12,9 @@ class AethelgardEngine:
         if not isinstance(grid_size, int) or grid_size <= 0:
             raise ValueError("Grid size must be a positive integer.")
         if grid_size > 256:
-            raise ValueError("Grid size exceeds maximum limit of 256 to prevent resource exhaustion.")
+            raise ValueError(
+                "Grid size exceeds maximum limit of 256 to prevent resource exhaustion."
+            )
         if not isinstance(domain_size, (int, float)) or domain_size <= 0:
             raise ValueError("Domain size must be a positive number.")
 
@@ -61,11 +63,18 @@ class AethelgardEngine:
         if iterations > 10000:
             raise ValueError("Iterations exceeds maximum limit of 10000.")
 
-        if mass_distribution.shape != (self.N, self.N, self.N):
-            raise ValueError(f"Mass distribution shape {mass_distribution.shape} must match grid size ({self.N}, {self.N}, {self.N}).")
+        target_shape = (self.N, self.N, self.N)
+        if mass_distribution.shape != target_shape:
+            raise ValueError(
+                f"Mass distribution shape {mass_distribution.shape} "
+                f"must match grid size {target_shape}."
+            )
 
-        if entropy_map.shape != (self.N, self.N, self.N):
-            raise ValueError(f"Entropy map shape {entropy_map.shape} must match grid size ({self.N}, {self.N}, {self.N}).")
+        if entropy_map.shape != target_shape:
+            raise ValueError(
+                f"Entropy map shape {entropy_map.shape} "
+                f"must match grid size {target_shape}."
+            )
 
         if verbose:
             print("Synthesizing metric for Aethelgard-QGF...")

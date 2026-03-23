@@ -1,6 +1,7 @@
 import unittest
-import numpy as np
+
 from aethelgard_engine import AethelgardEngine
+
 
 class TestHazard(unittest.TestCase):
     def setUp(self):

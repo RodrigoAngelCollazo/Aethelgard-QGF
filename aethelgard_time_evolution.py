@@ -102,7 +102,10 @@ class AethelgardEngineTimeEvolution(AethelgardEngine):
         if not isinstance(time_steps, int) or time_steps <= 0:
             raise ValueError("Time steps must be a positive integer.")
         if time_steps > 5000:
-            raise ValueError("Time steps exceeds maximum limit of 5000 to prevent resource exhaustion.")
+            raise ValueError(
+                "Time steps exceeds maximum limit of 5000 "
+                "to prevent resource exhaustion."
+            )
 
         if verbose:
             print("=" * 70)
@@ -227,8 +230,14 @@ class AethelgardEngineTimeEvolution(AethelgardEngine):
             Directory to save plots
         """
         # Security: Prevent path traversal
-        if ".." in output_dir or output_dir.startswith("/") or output_dir.startswith("\\") or ":" in output_dir:
-            raise ValueError("Invalid output directory. Path traversal or absolute paths not allowed.")
+        inv_dir = (
+            ".." in output_dir or output_dir.startswith("/") or 
+            output_dir.startswith("\\") or ":" in output_dir
+        )
+        if inv_dir:
+            raise ValueError(
+                "Invalid output directory. Path traversal or absolute paths not allowed."
+            )
             
         output_path = Path(output_dir)
         output_path.mkdir(exist_ok=True)
@@ -238,11 +247,10 @@ class AethelgardEngineTimeEvolution(AethelgardEngine):
         times = np.array(self.history['time'])
         
         # Metric evolution
-        axes[0, 0].plot(times, self.history['metric_mean'], 'b-', linewidth=2)
-        axes[0, 0].fill_between(times,
-                                np.array(self.history['metric_mean']) - np.array(self.history['metric_std']),
-                                np.array(self.history['metric_mean']) + np.array(self.history['metric_std']),
-                                alpha=0.3)
+        m_mean = np.array(self.history['metric_mean'])
+        m_std = np.array(self.history['metric_std'])
+        axes[0, 0].plot(times, m_mean, 'b-', linewidth=2)
+        axes[0, 0].fill_between(times, m_mean - m_std, m_mean + m_std, alpha=0.3)
         axes[0, 0].axhline(1.0, color='gray', linestyle='--', label='Minkowski')
         axes[0, 0].set_xlabel('Time (s)')
         axes[0, 0].set_ylabel('⟨g₀₀⟩')

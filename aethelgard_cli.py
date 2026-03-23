@@ -9,7 +9,7 @@ def run_example():
 
 def run_viz():
     """Launch the interactive visualizer."""
-    from interactive_visualizer import InteractiveVisualizer, INTERACTIVE_AVAILABLE
+    from interactive_visualizer import INTERACTIVE_AVAILABLE, InteractiveVisualizer
     if not INTERACTIVE_AVAILABLE:
         raise ImportError("Install with: pip install aethelgard-qgf[viz]")
     viz = InteractiveVisualizer(grid_size=32, domain_size=10.0)
